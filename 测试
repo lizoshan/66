@@ -1,0 +1,101 @@
+import os
+import time
+import pyautogui
+import pyperclip
+
+def find_and_click_image(image_path):
+    location = None
+    while not location:
+        location = pyautogui.locateOnScreen(image_path)
+    x, y = pyautogui.center(location)
+    pyautogui.click(x, y)
+
+def find_and_type_text(image_path, text):
+    location = None
+    while not location:
+        location = pyautogui.locateOnScreen(image_path)
+    x, y = pyautogui.center(location)
+    pyautogui.click(x, y)
+    # 复制文本到剪贴板
+    pyperclip.copy(text)
+    # 模拟键盘快捷键Ctrl+V来粘贴文本
+    pyautogui.hotkey('ctrl', 'v')
+
+def scroll_and_click_other():
+    scroll_box_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '滚动选择框.png')
+    confirm_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '确认.png')
+    # 点击'业务类型'
+    find_and_click_image(os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '业务类型.png'))
+    # 等待一段时间，确保页面加载完成
+    time.sleep(3)
+    # 在滚动选择框中查找'其他'并点击
+    scroll_box_location = pyautogui.locateCenterOnScreen(scroll_box_image)
+    if scroll_box_location:
+        pyautogui.moveTo(scroll_box_location)  # 将鼠标移动到滚动选择框位置
+        for _ in range(3):
+            pyautogui.scroll(-200)  # 执行3次鼠标滚动操作
+            time.sleep(0.5)
+        find_and_click_image(os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '其他.png'))
+    # 点击'确认'
+    find_and_click_image(confirm_image)
+
+def click_handle_platform():
+    handle_platform_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '办理平台.png')
+    confirm_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '确认.png')
+    # 点击'办理平台'
+    find_and_click_image(handle_platform_image)
+    # 等待一段时间，确保页面加载完成
+    time.sleep(3)
+    # 点击'确认'
+    find_and_click_image(confirm_image)
+
+# 图像文件路径
+satisfaction_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '满意度评价.png')
+location_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '所在地区.png')
+guangxi_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '广西.png')
+evaluation_court_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '评价法院.png')
+search_box_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '搜索框.png')
+xingye_court_image = os.path.join(os.path.expanduser('~'), 'Desktop', '新建文件夹 (2)', '兴业县人民法院.png')
+
+# 点击'满意度评价'
+find_and_click_image(satisfaction_image)
+
+# 点击'所在地区'
+find_and_click_image(location_image)
+# 模拟鼠标滚轮向下滚动3次，每次间隔0.1秒
+for _ in range(3):
+    pyautogui.scroll(-200)
+    time.sleep(0.5)
+
+# 点击'广西'
+find_and_click_image(guangxi_image)
+
+# 点击'评价法院'
+find_and_click_image(evaluation_court_image)
+
+# 等待一段时间，确保页面加载完成
+time.sleep(3)
+
+# 点击搜索框位置
+find_and_click_image(search_box_image)
+
+# 将文本'兴业'复制到剪贴板
+pyperclip.copy('兴业')
+
+# 粘贴文本
+pyautogui.hotkey('ctrl', 'v')
+
+# 按回车键
+pyautogui.press('enter')
+
+# 等待一段时间，确保页面加载完成
+time.sleep(3)
+
+# 点击跳转出来的兴业县人民法院
+find_and_click_image(xingye_court_image)
+
+# 执行下一步操作
+scroll_and_click_other()
+
+# 点击办理平台和确认
+click_handle_platform()
